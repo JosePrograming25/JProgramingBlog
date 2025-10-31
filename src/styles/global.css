@@ -1,0 +1,32 @@
+/* ...existing code... */
+
+/* Importa Inter (usa display=swap para mejor rendimiento) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Aplicar la fuente globalmente */
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ajustes de peso para encabezados y texto */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+p, span, a, li {
+  font-weight: 400;
+}
+
+/* Fuentes monoespaciadas para código */
+code, pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+}
+
+/* ...existing code... */
