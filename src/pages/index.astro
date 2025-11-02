@@ -1,11 +1,254 @@
 ---
-import Articulo from '../components/Articulo.astro';
-import Layout from '../layouts/Layout.astro';
+import Articulo from "../components/Articulo.astro";
+import Layout from "../layouts/Layout.astro";
+import "../styles/inicio.css";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Articulo />
+  <main class="container contenedor-inicio">
+    <!-- Sección 1: Hero / Saludo grande -->
+    <section id="hero" class="hero">
+      <div class="hero-inner">
+        <h1 class="hero-title">Hola, soy José García</h1>
+        <p class="hero-desc">
+          Bienvenido a JPrograming25 — mi web personal dedicada a documentar lo
+          que aprendo en programación: proyectos, soluciones a problemas, datos
+          curiosos y apuntes rápidos. Aquí comparto mi progreso con la esperanza
+          de colaborar y crecer profesionalmente.
+        </p>
+        <p class="hero-links">
+          <a href="#conoceme" class="btn">Conóceme / Más sobre mí</a> · <a
+            href="#contacto">Contacto</a>
+        </p>
+        <p class="hero-note">
+          (Enlace de "Conóceme" y "Contacto" apuntan a placeholders hasta que se
+          creen las páginas correspondientes.)
+        </p>
+      </div>
+    </section>
+
+    <!-- Sección 2: Contacto y redes -->
+    <section
+      id="contacto"
+      style="padding:3rem 1rem; background:var(--astro-bg, #fafafa);"
+    >
+      <div class="contact-wrapper">
+        <h2>Encuéntrame</h2>
+        <!-- Redes sociales: colocadas arriba según solicitud -->
+        <div class="contact-social">
+          <a href="#" class="social" aria-label="Instagram">Instagram</a>
+          <a href="#" class="social" aria-label="Facebook">Facebook</a>
+          <a href="#" class="social" aria-label="GitHub">GitHub</a>
+          <a href="#" class="social" aria-label="LinkedIn">LinkedIn</a>
+        </div>
+
+        <!-- Formulario de notificaciones: colocado debajo de las redes -->
+        <div class="contact-notify">
+          <form id="notify-form" aria-label="Formulario de notificaciones">
+            <label for="email" style="display:block; margin-bottom:.25rem;"
+              >Recibir notificaciones por correo</label
+            >
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="tu@correo.com"
+              style="width:100%; padding:.5rem; margin-bottom:.5rem;"
+            />
+
+            <fieldset style="border:none; padding:0; margin:0 0 .5rem;">
+              <legend style="font-weight:600; margin-bottom:.25rem;"
+                >Notificarme sobre:</legend
+              >
+              <label style="display:flex; gap:.5rem; align-items:center;"
+                ><input type="checkbox" name="notify[]" value="github" /> Nuevos
+                proyectos en GitHub</label
+              >
+              <label style="display:flex; gap:.5rem; align-items:center;"
+                ><input type="checkbox" name="notify[]" value="posts" /> Nuevos posts
+                del blog</label
+              >
+            </fieldset>
+
+            <div class="container-submit">
+              <button type="submit" style="padding:.5rem 1rem;">Enviar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 3: Nuevas Entradas -->
+    <section id="entradas" style="padding:3rem 1rem;">
+      <div class="section-wrapper">
+        <h2>Nuevas entradas</h2>
+        <p style="color:#555;">
+          Las últimas publicaciones donde comparto soluciones, apuntes y
+          curiosidades.
+        </p>
+
+        <div class="grid entradas-grid">
+          <!-- Entrada 1 -->
+          <article
+            class="card"
+            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
+          >
+            <h3>Cómo resolví un bug de despliegue</h3>
+            <p style="font-size:.95rem; color:#444;">
+              Un paso a paso sobre cómo identifiqué y solucioné un error en la
+              configuración del servidor y pipeline.
+            </p>
+            <p><a href="#" aria-label="Leer entrada 1">Leer entrada</a></p>
+          </article>
+
+          <!-- Entrada 2 -->
+          <article
+            class="card"
+            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
+          >
+            <h3>Apuntes rápidos: JavaScript asíncrono</h3>
+            <p style="font-size:.95rem; color:#444;">
+              Resumen breve y ejemplos prácticos sobre promesas, async/await y
+              patrones comunes.
+            </p>
+            <p><a href="#" aria-label="Leer entrada 2">Leer entrada</a></p>
+          </article>
+
+          <!-- Entrada 3 -->
+          <article
+            class="card"
+            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
+          >
+            <h3>Dato curioso: historia de Git</h3>
+            <p style="font-size:.95rem; color:#444;">
+              Un vistazo entretenido a los orígenes de Git y consejos para
+              flujos de trabajo en equipo.
+            </p>
+            <p><a href="#" aria-label="Leer entrada 3">Leer entrada</a></p>
+          </article>
+        </div>
+
+        <div class="more-wrap"><button class="more">Más entradas</button></div>
+      </div>
+    </section>
+
+    <!-- Sección 4: Tags destacados -->
+    <section
+      id="tags"
+      style="padding:2rem 1rem; background:var(--astro-bg, #fafafa);"
+    >
+      <div class="section-wrapper">
+        <h2>Tags destacados</h2>
+        <div class="tags-list">
+          <a href="#" class="tag">#javascript</a>
+          <a href="#" class="tag">#deployment</a>
+          <a href="#" class="tag">#tips</a>
+          <a href="#" class="tag">#astro</a>
+          <a href="#" class="tag">#proyectos</a>
+        </div>
+        <div class="more-wrap"><button class="more-tags">Más tags</button></div>
+      </div>
+    </section>
+
+    <!-- Sección 5: Proyectos destacados -->
+    <section id="proyectos" style="padding:3rem 1rem;">
+      <div class="section-wrapper">
+        <h2>Proyectos destacados</h2>
+        <div class="grid proyectos-grid">
+          <article
+            class="project"
+            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
+          >
+            <h3>Portfolio personal</h3>
+            <p>
+              Mi portfolio está hecho con Astro y muestra mis proyectos en
+              progreso.
+            </p>
+            <p><a href="#">Ver proyecto</a></p>
+          </article>
+
+          <article
+            class="project"
+            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
+          >
+            <h3>Herramienta de notas</h3>
+            <p>
+              Una pequeña app para tomar apuntes rápidos y organizarlos por
+              tags.
+            </p>
+            <p><a href="#">Ver proyecto</a></p>
+          </article>
+
+          <article
+            class="project"
+            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
+          >
+            <h3>Mini-app de tareas</h3>
+            <p>
+              Proyecto simple para practicar estados, almacenamiento local y
+              control de tareas.
+            </p>
+            <p><a href="#">Ver proyecto</a></p>
+          </article>
+        </div>
+        <div class="more-wrap">
+          <button class="more-projects">Más proyectos</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección 6: Comentarios destacados -->
+    <section
+      id="testimonios"
+      style="padding:2.5rem 1rem; background:var(--astro-bg, #f7f7fb);"
+    >
+      <div class="section-wrapper narrow">
+        <h2>Comentarios destacados</h2>
+        <ul class="testimonials-list">
+          <li class="testimonial">
+            <strong>María López</strong> — "Los artículos son claros y muy prácticos.
+            Me ayudaron a resolver un issue en mi proyecto."
+          </li>
+          <li class="testimonial">
+            <strong>Carlos Ruiz</strong> — "Buen enfoque para documentar problemas
+            reales. ¡Sigue así!"
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Sección 7: Feedback / colaborar -->
+    <section id="feedback" style="padding:2.5rem 1rem;">
+      <div class="section-wrapper narrow" style="text-align:left;">
+        <h2>¿Tienes sugerencias?</h2>
+        <p>
+          Si quieres mejorar esta web o colaborar, abre un issue o un pull
+          request en el repositorio:
+        </p>
+        <p>
+          <a href="#" target="_blank" rel="noopener"
+            >Repositorio del sitio (colabora)</a>
+        </p>
+
+        <form
+          id="feedback-form"
+          style="margin-top:1rem; display:grid; gap:.5rem;"
+        >
+          <label for="msg">Tu comentario</label>
+          <textarea
+            id="msg"
+            name="message"
+            rows="4"
+            placeholder="¿Qué puedo mejorar?"
+            style="padding:.5rem;"></textarea>
+          <button type="submit" style="padding:.5rem 1rem; width:max-content;"
+            >Enviar feedback</button
+          >
+        </form>
+      </div>
+    </section>
+  </main>
 </Layout>

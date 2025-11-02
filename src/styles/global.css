@@ -29,4 +29,8 @@ code, pre {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
 }
 
+.submit {
+  margin: auto;
+}
+
 /* ...existing code... */
