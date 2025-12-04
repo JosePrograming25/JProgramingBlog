@@ -1,0 +1,203 @@
+/*
+  inicio.css
+  Styles específicos para la página de inicio (clase principal: .contenedor-inicio)
+
+  Instrucciones y documentación (para tu post):
+  - Este archivo agrupa estilos que sólo afectan a la página de inicio. Lo hacemos así
+    para mantener el CSS modular y facilitar la lectura del proceso.
+  - Hay una sección al final marcada como "ESTILOS SUGERIDOS PARA global.css". Esas
+    reglas son las que considero comúnmente reutilizables (tipografía global, contenedor)
+    y que conviene mover manualmente a `global.css` para evitar duplicación.
+
+  Comentarios en cada bloque: cada bloque CSS incluye una breve explicación de por qué
+  existe y qué parte del HTML controla. Esto servirá como documentación en tu post.
+*/
+
+/* ------------------------------------------------------------
+   1) Contenedor principal de la página de inicio
+   - .contenedor-inicio: clase que envuelve todo el contenido del inicio.
+   - Motivo: centralizar espaciados y estilos exclusivos de la home.
+*/
+.contenedor-inicio {
+  /* Padding vertical amplio para separar secciones en la home */
+  --inicio-vertical-padding: 3rem;
+}
+
+/* ------------------------------------------------------------
+   2) Hero (saludo grande)
+   - .hero: sección principal al inicio.
+   - .hero-inner: centra el contenido y limita el ancho.
+   - .hero-title / .hero-desc: control tipográfico.
+*/
+.hero {
+  padding: 6rem 1rem; /* espacio generoso para destacar el hero */
+  text-align: center;
+  background: transparent;
+}
+.hero-inner {
+  max-width: 960px; /* limitar ancho para mejorar lectura */
+  margin: 0 auto;
+}
+.hero-title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  margin: 0 0 1rem;
+}
+.hero-desc {
+  font-size: 1.125rem;
+  margin: 0 0 1.25rem;
+  color: #222;
+}
+.hero-links a.btn {
+  color: var(--astro-link-color);
+  text-decoration: underline;
+}
+.hero-note {
+  font-size: .95rem;
+  color: #666;
+}
+
+/* ------------------------------------------------------------
+   3) Contacto: redes (arriba) y formulario de notificaciones (abajo)
+   - Separamos visualmente redes y formulario para que el usuario los vea
+     como dos pasos: encontrar al autor y suscribirse.
+   - Limitamos el ancho del input / form para que no ocupe toda la pantalla,
+     centrándolo y mejorando la legibilidad.
+*/
+
+#contacto {
+    max-width: 960px;
+    border-radius: 1rem;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    
+}
+.contact-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+.contact-social {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.contact-social .social {
+  /* Estilo simple para enlaces de redes */
+  padding: .25rem .5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(0,0,0,0.03);
+}
+.contact-notify {
+  /* Centrar el formulario y limitar su ancho para que el input no sea demasiado largo */
+  max-width: 520px; /* ancho máximo sugerido */
+  margin-top: 0;
+}
+.contact-notify form {
+  display: block;
+}
+.contact-notify input[type="email"] {
+  width: 100%;
+  padding: .5rem;
+  margin-bottom: .5rem;
+  box-sizing: border-box;
+}
+.contact-notify fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 .5rem;
+}
+
+/* ------------------------------------------------------------
+   4) Entradas, Proyectos y Tarjetas
+   - Reutilizamos clases genéricas para tarjetas (.card, .project)
+   - .entradas-grid y .proyectos-grid permiten pequeñas diferencias visuales
+     (ej: color de fondo, hover) sin ser idénticas — así evitas monotonía.
+*/
+.section-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.card, .project {
+  padding: 1rem;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  background: #fff;
+}
+.entradas-grid .card {
+  /* Entradas: estilo neutro para lectura.
+     Mantengo la regla mínima para documentar la intención: si en el futuro
+     quieres añadir un color o borde distinto, hazlo aquí. */
+  color: inherit;
+}
+.proyectos-grid .project {
+  /* Proyectos: ligeros cambios para distinguir (sombra suave) */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.more-wrap { text-align: center; margin-top: 1rem; }
+.more, .more-projects, .more-tags { padding: .5rem 1rem; }
+
+/* ------------------------------------------------------------
+   5) Tags: diseño similar pero con identidad propia
+   - Hacemos tags más compactos y con forma de píldora para diferenciar
+     visualmente de las tarjetas de proyectos/entradas.
+*/
+.tags-list { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.75rem; }
+.tag {
+  display:inline-block;
+  padding:.35rem .6rem;
+  background: #f1f5f9;
+  border-radius: 999px; /* píldora */
+  text-decoration:none;
+  color: #0f172a;
+  font-size: .95rem;
+}
+
+.container-submit {
+  display: flex;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------
+   6) Testimonios y formulario de feedback
+*/
+.narrow { max-width: 900px; margin: 0 auto; }
+.testimonials-list { list-style: none; padding: 0; margin-top: 1rem; display: grid; gap: 1rem; }
+.testimonial { padding: 1rem; border: 1px solid #e6e6e6; border-radius: 8px; background:#fff; }
+
+/* ------------------------------------------------------------
+   ESTILOS SUGERIDOS PARA global.css
+   - Las siguientes reglas son candidatas a moverse a `src/styles/global.css`.
+   - Moverlas allí evitará duplicación en otros componentes y armonizará la UI.
+
+   Copia/pega las reglas relevantes en tu `global.css` cuando quieras.
+*/
+
+/* -- INICIO: reglas sugeridas para global.css -- */
+/*
+:root {
+  --astro-link-color: #0070f3;
+}
+.container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+a { color: var(--astro-link-color); }
+button { cursor: pointer; }
+html, body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+*/
+/* -- FIN: reglas sugeridas para global.css -- */
+
+/* Fin de inicio.css */
