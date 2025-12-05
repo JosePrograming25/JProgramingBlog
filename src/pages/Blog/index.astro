@@ -1,0 +1,44 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PostCard from "../../components/PostCard.astro";
+
+// Obtener todos los posts de la carpeta actual
+const posts = await Astro.glob("./*.md");
+
+// Ordenar posts por fecha si tienen fecha en el frontmatter, o por defecto
+// Asumimos que pueden no tener fecha, así que manejamos eso.
+// Si quisieras ordenar, podrías hacerlo aquí.
+---
+
+<Layout>
+  <main class="max-w-[1000px] mx-auto px-8 py-8">
+    <header class="text-center mb-16">
+      <h1
+        class="text-5xl font-extrabold bg-linear-to-br from-indigo-500 to-purple-500 bg-clip-text text-transparent mb-4"
+      >
+        Blog
+      </h1>
+      <p class="text-xl text-muted-foreground">
+        Explora mis últimos artículos y tutoriales.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        posts.map((post: any) => (
+          <PostCard
+            title={post.frontmatter.title || "Sin título"}
+            description={
+              post.frontmatter.description ||
+              "Haz clic para leer este interesante artículo..."
+            }
+            url={post.url}
+            date={post.frontmatter.date}
+            image={post.frontmatter.image}
+            type={post.frontmatter.type}
+          />
+        ))
+      }
+    </div>
+  </main>
+</Layout>

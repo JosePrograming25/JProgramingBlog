@@ -1,0 +1,67 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getAllTags, getPostsByTag } from "../../utils/tags";
+
+export async function getStaticPaths() {
+  const allPosts = await Astro.glob("../Blog/*.md");
+  const tags = getAllTags(allPosts);
+
+  return tags.map((tagItem) => ({
+    params: { tag: tagItem.tag },
+    props: { tag: tagItem.tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const allPosts = await Astro.glob("../Blog/*.md");
+const posts = getPostsByTag(allPosts, tag);
+---
+
+<Layout>
+  <main class="max-w-[1000px] mx-auto px-8 py-16">
+    <header class="text-center mb-16">
+      <p class="text-sm text-primary font-bold uppercase tracking-wider mb-2">
+        Etiqueta
+      </p>
+      <h1 class="text-5xl font-extrabold text-foreground mb-4">
+        #{tag}
+      </h1>
+      <p class="text-xl text-muted-foreground">
+        {posts.length}
+        {
+          posts.length === 1
+            ? "publicación encontrada"
+            : "publicaciones encontradas"
+        }
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        posts.map((post: any) => (
+          <PostCard
+            title={post.frontmatter.title || "Sin título"}
+            description={
+              post.frontmatter.description ||
+              "Haz clic para leer este interesante artículo..."
+            }
+            url={post.url}
+            date={post.frontmatter.date}
+            image={post.frontmatter.image}
+            type={post.frontmatter.type}
+          />
+        ))
+      }
+    </div>
+
+    <div class="text-center mt-16">
+      <a
+        href="/tags"
+        class="inline-flex items-center gap-2 text-primary font-semibold hover:text-primary/80 transition-colors"
+      >
+        &larr; Ver todas las etiquetas
+      </a>
+    </div>
+  </main>
+</Layout>

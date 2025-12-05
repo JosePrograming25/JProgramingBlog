@@ -1,0 +1,22 @@
+---
+interface Props {
+  text: string;
+  count?: number;
+  size?: "sm" | "md";
+}
+
+const { text, count, size = "sm" } = Astro.props;
+
+const sizeClasses = size === "sm" ? "text-xs px-2 py-1" : "text-sm px-3 py-1.5";
+---
+
+<span
+  class={`inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary font-medium ${sizeClasses} transition-colors hover:bg-primary/20`}
+>
+  #{text}
+  {
+    count !== undefined && (
+      <span class="opacity-60 text-[0.9em]">({count})</span>
+    )
+  }
+</span>

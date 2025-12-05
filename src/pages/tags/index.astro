@@ -1,0 +1,40 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Badge from "../../components/ui/Badge.astro";
+import { getAllTags } from "../../utils/tags";
+
+const allPosts = await Astro.glob("../Blog/*.md");
+const tags = getAllTags(allPosts);
+---
+
+<Layout>
+  <main class="max-w-[1000px] mx-auto px-8 py-16">
+    <header class="text-center mb-16">
+      <h1
+        class="text-5xl font-extrabold bg-linear-to-br from-indigo-500 to-purple-500 bg-clip-text text-transparent mb-4"
+      >
+        Etiquetas
+      </h1>
+      <p class="text-xl text-muted-foreground">
+        Explora el contenido por temas.
+      </p>
+    </header>
+
+    <div class="flex flex-wrap justify-center gap-4">
+      {
+        tags.length > 0 ? (
+          tags.map((tagItem) => (
+            <a
+              href={`/tags/${tagItem.tag}`}
+              class="no-underline transform hover:scale-110 transition-transform duration-200"
+            >
+              <Badge text={tagItem.tag} count={tagItem.count} size="md" />
+            </a>
+          ))
+        ) : (
+          <p class="text-muted-foreground">No hay etiquetas disponibles.</p>
+        )
+      }
+    </div>
+  </main>
+</Layout>

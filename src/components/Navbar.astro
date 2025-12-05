@@ -1,0 +1,277 @@
+---
+import { getAllTags } from "../utils/tags";
+import DropdownLink from "./ui/DropdownLink.astro";
+import Badge from "./ui/Badge.astro";
+
+const navLinks = [
+  { name: "Inicio", href: "/" },
+  { name: "Blog", href: "/Blog", hasDropdown: true, dropdownType: "blog" },
+  { name: "Etiquetas", href: "/tags", hasDropdown: true, dropdownType: "tags" },
+  { name: "Proyectos", href: "/projects" },
+  { name: "A cerca de mi", href: "/about" },
+];
+
+// Fetch latest 3 posts
+const allPosts = await Astro.glob("../pages/Blog/*.md");
+// Sort by date (assuming frontmatter.date exists, otherwise default order)
+const sortedPosts = allPosts.sort((a: any, b: any) => {
+  const dateA = new Date(a.frontmatter.date || 0).getTime();
+  const dateB = new Date(b.frontmatter.date || 0).getTime();
+  return dateB - dateA;
+});
+const latestPosts = sortedPosts.slice(0, 3);
+
+// Get top 5 tags
+const allTags = getAllTags(allPosts);
+const topTags = allTags.slice(0, 5);
+---
+
+<nav
+  class="fixed w-full z-50 transition-all duration-300 bottom-0 top-auto border-t border-border pb-[env(safe-area-inset-bottom)] md:relative md:top-auto md:bottom-auto md:border-b md:border-t-0 bg-white/90 dark:bg-[#020617]/90 backdrop-blur-md"
+>
+  <div
+    class="max-w-[1200px] mx-auto px-4 sm:px-6 py-4 md:py-4 flex justify-between items-center w-full relative"
+  >
+    <a
+      href="/"
+      class="text-xl md:text-2xl font-extrabold no-underline bg-linear-to-br from-indigo-500 to-purple-500 bg-clip-text text-transparent tracking-tighter shrink-0"
+      >JPrograming25</a
+    >
+
+    <div
+      class="fixed bottom-[65px] left-0 w-full bg-white dark:bg-[#020617f9] p-6 rounded-t-3xl transform translate-y-[150%] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_-10px_40px_rgba(0,0,0,0.2)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-60 max-h-[80vh] overflow-y-auto md:static md:bottom-auto md:left-auto md:w-auto md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none md:transform-none md:shadow-none md:z-auto md:max-h-none md:overflow-visible"
+      id="navLinksContainer"
+    >
+      <ul
+        class="list-none flex flex-col items-center gap-4 w-full md:flex-row md:gap-8"
+      >
+        {
+          navLinks.map((link) => (
+            <li
+              class={`relative group w-full md:w-auto ${link.hasDropdown ? "dropdown-item" : ""}`}
+            >
+              <div class="flex items-center justify-center w-full md:w-auto">
+                <a
+                  href={link.href}
+                  class="no-underline font-medium text-lg md:text-base transition-colors duration-300 relative flex items-center justify-center gap-1 text-slate-800 dark:text-slate-200 hover:text-indigo-500 dark:hover:text-indigo-400 w-full md:w-auto py-2 md:py-0"
+                  data-has-dropdown={link.hasDropdown}
+                >
+                  {link.name}
+                  {link.hasDropdown && (
+                    <span class="text-[0.7rem] transition-transform duration-300 group-hover:rotate-180 hidden md:inline-block">
+                      ▼
+                    </span>
+                  )}
+                  {link.hasDropdown && (
+                    <span class="text-[0.7rem] transition-transform duration-300 ml-1 md:hidden dropdown-arrow">
+                      ▼
+                    </span>
+                  )}
+                  <span class="absolute bottom-[-4px] left-0 w-0 h-[2px] bg-linear-to-r from-indigo-500 to-purple-500 transition-all duration-300 group-hover:w-full hidden md:block" />
+                </a>
+              </div>
+
+              {link.hasDropdown && (
+                <div class="mobile-dropdown-content overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out md:overflow-visible md:max-h-none md:opacity-100 md:block md:absolute md:top-full md:left-1/2 md:-translate-x-1/2 md:translate-y-2 md:bg-white/95 md:dark:bg-[#020617]/95 md:backdrop-blur-md md:border md:border-black/5 md:dark:border-white/10 md:rounded-xl md:w-[350px] md:shadow-lg md:invisible md:z-50 group-hover:md:visible group-hover:md:translate-y-0">
+                  <div class="flex flex-col gap-2 md:gap-3 p-4 md:p-4 bg-slate-50/50 dark:bg-slate-900/50 rounded-xl md:bg-transparent md:dark:bg-transparent mt-2 md:mt-0 border border-black/5 dark:border-white/5 md:border-none">
+                    {/* Contenido del Dropdown de Blog */}
+                    {link.dropdownType === "blog" && (
+                      <>
+                        {latestPosts.length > 0 ? (
+                          latestPosts.map((post: any) => (
+                            <a
+                              href={post.url}
+                              class="flex flex-col no-underline p-3 rounded-lg transition-colors duration-200 bg-white/50 dark:bg-slate-800/50 md:bg-transparent hover:bg-indigo-500/5 dark:hover:bg-indigo-400/10"
+                            >
+                              <div class="flex gap-3 items-center">
+                                {post.frontmatter.image && (
+                                  <img
+                                    src={post.frontmatter.image}
+                                    alt=""
+                                    class="w-[50px] h-[50px] rounded-lg object-cover"
+                                  />
+                                )}
+                                <div class="flex flex-col">
+                                  <span class="font-semibold text-slate-800 dark:text-slate-200 text-[0.9rem] mb-[2px] leading-tight line-clamp-2">
+                                    {post.frontmatter.title || "Sin título"}
+                                  </span>
+                                  <span class="text-xs text-slate-500 dark:text-slate-400">
+                                    {post.frontmatter.date
+                                      ? new Date(
+                                          post.frontmatter.date
+                                        ).toLocaleDateString()
+                                      : ""}
+                                  </span>
+                                </div>
+                              </div>
+                            </a>
+                          ))
+                        ) : (
+                          <span class="text-center text-slate-500 dark:text-slate-400 text-sm py-2">
+                            No hay posts recientes
+                          </span>
+                        )}
+                        <DropdownLink href="/Blog" text="Ver todo el blog" />
+                      </>
+                    )}
+
+                    {/* Contenido del Dropdown de Etiquetas */}
+                    {link.dropdownType === "tags" && (
+                      <>
+                        <div class="flex flex-wrap gap-2 p-2">
+                          {topTags.length > 0 ? (
+                            topTags.map((tagItem) => (
+                              <a
+                                href={`/tags/${tagItem.tag}`}
+                                class="no-underline"
+                              >
+                                <Badge
+                                  text={tagItem.tag}
+                                  count={tagItem.count}
+                                />
+                              </a>
+                            ))
+                          ) : (
+                            <span class="text-center text-slate-500 dark:text-slate-400 text-sm py-2 w-full">
+                              No hay etiquetas aún
+                            </span>
+                          )}
+                        </div>
+                        <DropdownLink
+                          href="/tags"
+                          text="Ver todas las etiquetas"
+                        />
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </li>
+          ))
+        }
+
+        {/* Mobile Theme Toggle */}
+        <li
+          class="md:hidden mt-4 pt-4 border-t border-border w-full flex justify-center"
+        >
+          <button
+            id="theme-toggle-mobile"
+            class="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-foreground font-medium"
+          >
+            <span class="dark:hidden">Modo Oscuro</span>
+            <span class="hidden dark:inline">Modo Claro</span>
+            <div class="relative w-5 h-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="absolute inset-0 w-full h-full text-yellow-500 transition-all duration-500 rotate-0 scale-100 dark:rotate-90 dark:scale-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                ></path></svg
+              >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="absolute inset-0 w-full h-full text-indigo-400 transition-all duration-500 -rotate-90 scale-0 dark:rotate-0 dark:scale-100"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                ></path></svg
+              >
+            </div>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <button
+      class="flex gap-1 items-center bg-none border-none cursor-pointer p-2 md:hidden"
+      id="menuToggle"
+      aria-label="Abrir menú"
+    >
+      <span
+        class="w-1.5 h-1.5 bg-foreground rounded-full transition-all duration-300 dot"
+      ></span>
+      <span
+        class="w-1.5 h-1.5 bg-foreground rounded-full transition-all duration-300 dot"
+      ></span>
+      <span
+        class="w-1.5 h-1.5 bg-foreground rounded-full transition-all duration-300 dot"
+      ></span>
+    </button>
+  </div>
+</nav>
+
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinksContainer = document.getElementById("navLinksContainer");
+  const dots = document.querySelectorAll(".dot");
+
+  if (menuToggle && navLinksContainer) {
+    menuToggle.addEventListener("click", () => {
+      navLinksContainer.classList.toggle("!translate-y-0"); // Override transform
+      menuToggle.classList.toggle("active");
+
+      // Animate dots
+      if (menuToggle.classList.contains("active")) {
+        dots[0].classList.add("translate-y-[10px]", "opacity-0");
+        dots[1].classList.add("scale-125", "bg-indigo-500");
+        dots[2].classList.add("-translate-y-[10px]", "opacity-0");
+      } else {
+        dots[0].classList.remove("translate-y-[10px]", "opacity-0");
+        dots[1].classList.remove("scale-125", "bg-indigo-500");
+        dots[2].classList.remove("-translate-y-[10px]", "opacity-0");
+      }
+    });
+  }
+
+  // Mobile Dropdown Logic
+  const dropdownLinks = document.querySelectorAll(
+    'a[data-has-dropdown="true"]'
+  );
+
+  dropdownLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      if (window.innerWidth < 768) {
+        // md breakpoint
+        e.preventDefault();
+        const parentLi = link.closest("li");
+        const dropdownContent = parentLi?.querySelector(
+          ".mobile-dropdown-content"
+        ) as HTMLElement | null;
+        const arrow = link.querySelector(".dropdown-arrow");
+
+        if (dropdownContent) {
+          // Toggle max-height for smooth animation
+          if (dropdownContent.style.maxHeight) {
+            dropdownContent.style.maxHeight = "";
+            dropdownContent.classList.remove("opacity-100");
+            dropdownContent.classList.add("opacity-0");
+          } else {
+            dropdownContent.classList.remove("hidden"); // Ensure it's not hidden
+            // Small delay to allow transition to work if it was hidden
+            requestAnimationFrame(() => {
+              dropdownContent.style.maxHeight =
+                dropdownContent.scrollHeight + "px";
+              dropdownContent.classList.remove("opacity-0");
+              dropdownContent.classList.add("opacity-100");
+            });
+          }
+
+          if (arrow) {
+            arrow.classList.toggle("rotate-180");
+          }
+        }
+      }
+    });
+  });
+</script>
