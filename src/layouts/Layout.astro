@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <!doctype html>
@@ -14,12 +15,13 @@ import ThemeToggle from "../components/ThemeToggle.astro";
     <title>JPrograming25</title>
   </head>
   <body
-    class="bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary overflow-x-hidden w-full"
+    class="bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary overflow-x-hidden w-full flex flex-col min-h-screen"
   >
     <Navbar />
-    <main class="layout-main min-h-screen pb-[80px] md:pb-0">
+    <main class="layout-main flex-grow pb-[80px] md:pb-0">
       <slot />
     </main>
+    <Footer />
     <!-- Desktop Theme Toggle (Floating) -->
     <div class="fixed bottom-8 right-8 z-50 hidden md:block">
       <div

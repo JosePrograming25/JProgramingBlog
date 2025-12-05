@@ -1,6 +1,7 @@
 ---
 import Layout from "./Layout.astro";
 import ImageZoom from "../components/ImageZoom.astro";
+import Comments from "../components/Comments.astro";
 
 const { frontmatter } = Astro.props;
 ---
@@ -59,6 +60,7 @@ const { frontmatter } = Astro.props;
     <div
       class="prose prose-lg dark:prose-invert prose-slate mx-auto
       prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-foreground
+      prose-h2:text-2xl prose-h3:text-xl
       prose-a:text-primary prose-a:no-underline hover:prose-a:underline
       prose-strong:text-foreground
       prose-code:text-primary prose-code:bg-secondary/50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
@@ -69,6 +71,8 @@ const { frontmatter } = Astro.props;
       <slot />
     </div>
   </article>
+
+  <Comments />
   <ImageZoom />
 </Layout>
 
