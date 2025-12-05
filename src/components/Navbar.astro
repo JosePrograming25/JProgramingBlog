@@ -1,6 +1,8 @@
 ---
+import ThemeToggle from "./ThemeToggle.astro";
 import { getAllTags } from "../utils/tags";
 import DropdownLink from "./ui/DropdownLink.astro";
+import Search from "./Search.astro";
 import Badge from "./ui/Badge.astro";
 
 const navLinks = [
@@ -39,7 +41,7 @@ const topTags = allTags.slice(0, 5);
     >
 
     <div
-      class="fixed bottom-[65px] left-0 w-full bg-white dark:bg-[#020617f9] p-6 rounded-t-3xl transform translate-y-[150%] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_-10px_40px_rgba(0,0,0,0.2)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-60 max-h-[80vh] overflow-y-auto md:static md:bottom-auto md:left-auto md:w-auto md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none md:transform-none md:shadow-none md:z-auto md:max-h-none md:overflow-visible"
+      class="fixed bottom-[65px] left-0 w-full bg-white dark:bg-[#020617f9] p-6 rounded-t-3xl transform translate-y-[150%] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_-10px_40px_rgba(0,0,0,0.2)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-60 max-h-[80vh] overflow-y-auto md:static md:bottom-auto md:left-auto md:w-auto md:bg-transparent md:backdrop-blur-none md:p-0 md:rounded-none md:transform-none md:shadow-none md:z-auto md:max-h-none md:overflow-visible md:translate-y-[0%]"
       id="navLinksContainer"
     >
       <ul
@@ -48,7 +50,9 @@ const topTags = allTags.slice(0, 5);
         {
           navLinks.map((link) => (
             <li
-              class={`relative group w-full md:w-auto ${link.hasDropdown ? "dropdown-item" : ""}`}
+              class={`relative group w-full md:w-auto ${
+                link.hasDropdown ? "dropdown-item" : ""
+              }`}
             >
               <div class="flex items-center justify-center w-full md:w-auto">
                 <a
@@ -149,88 +153,83 @@ const topTags = allTags.slice(0, 5);
             </li>
           ))
         }
-
         {/* Mobile Theme Toggle */}
-        <li
-          class="md:hidden mt-4 pt-4 border-t border-border w-full flex justify-center"
-        >
-          <button
-            id="theme-toggle-mobile"
-            class="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary text-foreground font-medium"
-          >
-            <span class="dark:hidden">Modo Oscuro</span>
-            <span class="hidden dark:inline">Modo Claro</span>
-            <div class="relative w-5 h-5">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="absolute inset-0 w-full h-full text-yellow-500 transition-all duration-500 rotate-0 scale-100 dark:rotate-90 dark:scale-0"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                ></path></svg
-              >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="absolute inset-0 w-full h-full text-indigo-400 transition-all duration-500 -rotate-90 scale-0 dark:rotate-0 dark:scale-100"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                ></path></svg
-              >
-            </div>
-          </button>
+        <li class="flex justify-center items-center mt-4 md:hidden">
+          <ThemeToggle />
         </li>
       </ul>
     </div>
 
-    <button
-      class="flex gap-1 items-center bg-none border-none cursor-pointer p-2 md:hidden"
-      id="menuToggle"
-      aria-label="Abrir menú"
-    >
-      <span
-        class="w-1.5 h-1.5 bg-foreground rounded-full transition-all duration-300 dot"
-      ></span>
-      <span
-        class="w-1.5 h-1.5 bg-foreground rounded-full transition-all duration-300 dot"
-      ></span>
-      <span
-        class="w-1.5 h-1.5 bg-foreground rounded-full transition-all duration-300 dot"
-      ></span>
-    </button>
+    <div class="flex items-center gap-4">
+      <button
+        id="search-btn"
+        class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300"
+        aria-label="Buscar"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-search"
+          ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"
+          ></path></svg
+        >
+      </button>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="menu-toggle"
+        class="md:hidden text-slate-900 dark:text-white focus:outline-none ml-2"
+        aria-label="Toggle Menu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 </nav>
 
+<Search />
+
 <script>
-  const menuToggle = document.getElementById("menuToggle");
+  const menuToggle = document.getElementById("menu-toggle");
   const navLinksContainer = document.getElementById("navLinksContainer");
-  const dots = document.querySelectorAll(".dot");
+  const searchBtn = document.getElementById("search-btn");
 
   if (menuToggle && navLinksContainer) {
     menuToggle.addEventListener("click", () => {
-      navLinksContainer.classList.toggle("!translate-y-0"); // Override transform
-      menuToggle.classList.toggle("active");
-
-      // Animate dots
-      if (menuToggle.classList.contains("active")) {
-        dots[0].classList.add("translate-y-[10px]", "opacity-0");
-        dots[1].classList.add("scale-125", "bg-indigo-500");
-        dots[2].classList.add("-translate-y-[10px]", "opacity-0");
+      const isClosed =
+        navLinksContainer.classList.contains("translate-y-[150%]");
+      if (isClosed) {
+        navLinksContainer.classList.remove("translate-y-[150%]");
+        navLinksContainer.classList.add("translate-y-0");
       } else {
-        dots[0].classList.remove("translate-y-[10px]", "opacity-0");
-        dots[1].classList.remove("scale-125", "bg-indigo-500");
-        dots[2].classList.remove("-translate-y-[10px]", "opacity-0");
+        navLinksContainer.classList.add("translate-y-[150%]");
+        navLinksContainer.classList.remove("translate-y-0");
       }
+    });
+  }
+
+  if (searchBtn) {
+    searchBtn.addEventListener("click", () => {
+      window.dispatchEvent(new CustomEvent("open-search"));
     });
   }
 

@@ -1,0 +1,118 @@
+---
+
+---
+
+<div
+  id="image-modal"
+  class="fixed inset-0 z-100 hidden bg-black/90 backdrop-blur-sm transition-opacity duration-300 opacity-0 items-center justify-center p-4"
+  aria-hidden="true"
+>
+  <button
+    id="close-modal"
+    class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 z-101"
+    aria-label="Cerrar imagen"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-x"
+      ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
+    >
+  </button>
+
+  <img
+    id="modal-image"
+    src=""
+    alt=""
+    class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300"
+  />
+</div>
+
+<script>
+  function initImageZoom() {
+    const modal = document.getElementById("image-modal");
+    const modalImg = document.getElementById("modal-image") as HTMLImageElement;
+    const closeBtn = document.getElementById("close-modal");
+
+    // Select images only within the prose content (articles)
+    // Excluding images that might be inside links (if desired, but usually zoom is fine)
+    const images = document.querySelectorAll(".prose img");
+
+    if (!modal || !modalImg || !closeBtn) return;
+
+    const openModal = (src: string, alt: string) => {
+      modalImg.src = src;
+      modalImg.alt = alt;
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      // Small delay to allow display:block to apply before opacity transition
+      requestAnimationFrame(() => {
+        modal.classList.remove("opacity-0");
+        modalImg.classList.remove("scale-95");
+        modalImg.classList.add("scale-100");
+      });
+
+      document.body.style.overflow = "hidden"; // Prevent scrolling
+    };
+
+    const closeModal = () => {
+      modal.classList.add("opacity-0");
+      modalImg.classList.remove("scale-100");
+      modalImg.classList.add("scale-95");
+
+      setTimeout(() => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        modalImg.src = "";
+      }, 300); // Match transition duration
+
+      document.body.style.overflow = ""; // Restore scrolling
+    };
+
+    images.forEach((img) => {
+      const imageElement = img as HTMLImageElement;
+      // Add zoom cursor style
+      imageElement.classList.add(
+        "cursor-zoom-in",
+        "transition-transform",
+        "duration-200",
+        "hover:scale-[1.01]"
+      );
+
+      imageElement.addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent default if it's inside a link (optional, depends on preference)
+        openModal(imageElement.src, imageElement.alt);
+      });
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+
+    // Close on click outside image
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+        closeModal();
+      }
+    });
+  }
+
+  // Run on initial load
+  initImageZoom();
+
+  // Run on view transitions (if enabled in Astro)
+  document.addEventListener("astro:page-load", initImageZoom);
+</script>

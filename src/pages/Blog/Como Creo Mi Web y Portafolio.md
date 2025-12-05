@@ -1,13 +1,12 @@
 ---
-layout: ../../layouts/Layout.astro
+layout: ../../layouts/MarkdownLayout.astro
 title: "Cómo Creo Mi Web y Portafolio (Documentando el Proceso)"
 date: "2025-10-28"
 image: "/assets/blog/web-planning.png"
+tags: ["Desarrollo Web", "Portafolio", "Proceso", "Astro", "Planificación"]
 type: "project"
 description: "Documentando el proceso paso a paso de la construcción de mi sitio web y portafolio profesional."
 ---
-
-# **🚀 Cómo Creo Mi Web y Portafolio (Documentando el Proceso)**
 
 Este es el **paso a paso, escalón a escalón**, de cómo estoy construyendo mi sitio web: qué tecnologías uso, por qué las elijo y cómo las implemento. Pero, sobre todo, este es un diario de **cómo documento mi propio proceso**. 😅
 

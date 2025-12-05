@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -12,5 +12,10 @@
     "@tailwindcss/vite": "^4.1.17",
     "astro": "^5.15.2",
     "tailwindcss": "^4.1.17"
+  },
+  "devDependencies": {
+    "@pagefind/default-ui": "^1.4.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "pagefind": "^1.4.0"
   }
 }

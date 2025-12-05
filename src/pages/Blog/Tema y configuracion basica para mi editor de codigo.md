@@ -1,13 +1,12 @@
 ---
-title: "Potencia tu Productividad: Extensiones y Temas que uso en 2025"
+title: "Tema y configuracion basica para mi editor de codigo"
 description: "Guía definitiva para personalizar Visual Studio Code y entornos compatibles. Aprende a configurar temas, fuentes y extensiones clave."
-tags: ["DevSetup", "VSCode", "Productivity", "Linux", "Customization", "React"]
+tags: ["Configuración", "VS Code", "Productividad", "Temas", "Extensiones"]
 date: "2025-12-01"
+layout: ../../layouts/MarkdownLayout.astro
 image: "/assets/blog/vscode-setup.png"
 type: "blog"
 ---
-
-# Potencia tu Productividad: Extensiones y Temas que uso en 2025
 
 ¡Hola, devs! 👋
 
@@ -28,7 +27,7 @@ Es una mezcla perfecta de colores neón sobre un fondo oscuro-azulado.
 - **Sensación:** Cyberpunk tranquilo.
 - **Ideal para:** Quienes trabajan de noche. Resalta muy bien el JSX y los componentes de Astro.
 
-![Tokyo Night Theme Preview](https://raw.githubusercontent.com/enkia/tokyo-night-vscode-theme/master/assets/preview.png)
+![Tokyo Night Theme Preview](../../../public/assets/blog/ss_tokyo_night.png)
 
 ### Opción B: [Dracula Official](https://marketplace.visualstudio.com/items?itemName=dracula-theme.theme-dracula)
 
@@ -37,7 +36,7 @@ Un clásico que nunca muere. Es famoso por su compatibilidad universal (está di
 - **Sensación:** Contraste alto, colores vibrantes (rosa, verde, morado) sobre fondo gris oscuro.
 - **Ideal para:** Quienes necesitan distinguir variables y funciones rápidamente.
 
-![Dracula Theme Preview](https://raw.githubusercontent.com/dracula/visual-studio-code/master/screenshots/dracula-theme-context-menu.png)
+![Dracula Theme Preview](../../../public/assets/blog/dracula.png)
 
 ### Opción C: [Catppuccin (Mocha)](https://marketplace.visualstudio.com/items?itemName=Catppuccin.catppuccin-vsc)
 
@@ -45,6 +44,8 @@ Un tema pastel de bajo contraste que es muy suave para los ojos.
 
 - **Sensación:** Suave, "cozy" y moderno.
 - **Ideal para:** Sesiones de codificación muy largas donde quieres evitar la fatiga ocular.
+
+![Catppuccin Theme Preview](../../../public/assets/blog/mocha.webp)
 
 ---
 
@@ -123,7 +124,3 @@ Olvídate del mouse. Memoriza estos 3 atajos hoy mismo:
 Personalizar tu entorno no es perder tiempo, es "afilar el hacha". Un entorno en el que te sientas cómodo te invita a escribir mejor código y reduce la fatiga.
 
 ¿Tienes alguna configuración especial en tu Linux o Windows? ¡Compártela en los comentarios!
-
-```
-
-```

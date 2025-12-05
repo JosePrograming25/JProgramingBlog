@@ -20,14 +20,5 @@ import ThemeToggle from "../components/ThemeToggle.astro";
     <main class="layout-main min-h-screen pb-[80px] md:pb-0">
       <slot />
     </main>
-
-    <!-- Desktop Theme Toggle (Floating) -->
-    <div class="fixed bottom-8 right-8 z-50 hidden md:block">
-      <div
-        class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-full shadow-lg border border-border p-1"
-      >
-        <ThemeToggle />
-      </div>
-    </div>
   </body>
 </html>
