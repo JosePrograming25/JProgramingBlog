@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap');
+      .text { font-family: 'Roboto', sans-serif; fill: #ffffff; text-anchor: middle; dominant-baseline: middle; }
+      .label-title { font-weight: bold; font-size: 16px; }
+      .label-desc { font-size: 12px; opacity: 0.9; }
+      .circle { stroke: #333; stroke-width: 2; transition: all 0.3s; }
+    </style>
+    <!-- Gradients -->
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4285F4;stop-opacity:1" /> <!-- Google Blue -->
+      <stop offset="100%" style="stop-color:#3367D6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EA4335;stop-opacity:1" /> <!-- Google Red -->
+      <stop offset="100%" style="stop-color:#C5221F;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FBBC05;stop-opacity:1" /> <!-- Google Yellow -->
+      <stop offset="100%" style="stop-color:#F09300;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#34A853;stop-opacity:1" /> <!-- Google Green -->
+      <stop offset="100%" style="stop-color:#188038;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background for context (optional, transparent usually better for embedding, but keeping it clean) -->
+  
+  <!-- Layer 1: Inteligencia Artificial (IA) -->
+  <ellipse cx="400" cy="300" rx="380" ry="280" fill="url(#grad1)" opacity="0.2" class="circle" />
+  <ellipse cx="400" cy="300" rx="380" ry="280" fill="none" stroke="#4285F4" stroke-width="2" />
+  <text x="400" y="60" class="text" style="font-size: 24px; font-weight: bold; fill: #4285F4;">Inteligencia Artificial (IA)</text>
+  <text x="400" y="85" class="text" style="fill: #8ab4f8; font-size: 14px;">Disciplina general: imita la inteligencia humana</text>
+
+  <!-- Layer 2: Aprendizaje Automático (AA / ML) -->
+  <ellipse cx="400" cy="340" rx="300" ry="220" fill="url(#grad2)" opacity="0.3" class="circle" />
+  <ellipse cx="400" cy="340" rx="300" ry="220" fill="none" stroke="#EA4335" stroke-width="2" />
+  <text x="400" y="160" class="text" style="font-size: 20px; font-weight: bold; fill: #EA4335;">Aprendizaje Automático (AA / ML)</text>
+  <text x="400" y="180" class="text" style="fill: #f28b82; font-size: 14px;">Aprende de datos para predecir</text>
+
+  <!-- Layer 3: Aprendizaje Profundo (AP / DL) -->
+  <ellipse cx="400" cy="380" rx="220" ry="160" fill="url(#grad3)" opacity="0.4" class="circle" />
+  <ellipse cx="400" cy="380" rx="220" ry="160" fill="none" stroke="#FBBC05" stroke-width="2" />
+  <text x="400" y="260" class="text" style="font-size: 18px; font-weight: bold; fill: #FBBC05;">Aprendizaje Profundo (AP / DL)</text>
+  <text x="400" y="280" class="text" style="fill: #fdd663; font-size: 14px;">Redes neuronales complejas</text>
+
+  <!-- Layer 4: IA Generativa (IAG / GenAI) -->
+  <ellipse cx="400" cy="420" rx="140" ry="100" fill="url(#grad4)" opacity="0.9" class="circle" />
+  <text x="400" y="420" class="text" style="font-size: 22px; font-weight: bold; fill: white;">IA Generativa</text>
+  <text x="400" y="445" class="text" style="font-size: 16px; font-weight: bold; fill: white;">(IAG / GenAI)</text>
+  <text x="400" y="470" class="text" style="font-size: 12px; fill: white;">CREA contenido nuevo</text>
+
+</svg>
