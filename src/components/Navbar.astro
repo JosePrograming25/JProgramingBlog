@@ -9,7 +9,7 @@ const navLinks = [
   { name: "Inicio", href: "/" },
   { name: "Blog", href: "/Blog", hasDropdown: true, dropdownType: "blog" },
   { name: "Etiquetas", href: "/tags", hasDropdown: true, dropdownType: "tags" },
-  { name: "Proyectos", href: "/projects" },
+  { name: "Proyectos", href: "/proyectos" },
   { name: "A cerca de mi", href: "/about" },
 ];
 
@@ -102,7 +102,7 @@ const topTags = allTags.slice(0, 5);
                                   <span class="text-xs text-slate-500 dark:text-slate-400">
                                     {post.frontmatter.date
                                       ? new Date(
-                                          post.frontmatter.date
+                                          post.frontmatter.date,
                                         ).toLocaleDateString()
                                       : ""}
                                   </span>
@@ -235,7 +235,7 @@ const topTags = allTags.slice(0, 5);
 
   // Mobile Dropdown Logic
   const dropdownLinks = document.querySelectorAll(
-    'a[data-has-dropdown="true"]'
+    'a[data-has-dropdown="true"]',
   );
 
   dropdownLinks.forEach((link) => {
@@ -245,7 +245,7 @@ const topTags = allTags.slice(0, 5);
         e.preventDefault();
         const parentLi = link.closest("li");
         const dropdownContent = parentLi?.querySelector(
-          ".mobile-dropdown-content"
+          ".mobile-dropdown-content",
         ) as HTMLElement | null;
         const arrow = link.querySelector(".dropdown-arrow");
 

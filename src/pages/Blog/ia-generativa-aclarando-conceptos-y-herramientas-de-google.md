@@ -3,6 +3,7 @@ title: "IA Generativa: Aclarando conceptos y herramientas de Google"
 description: "Notas de estudio sobre el curso 'Líder de IA Generativa' de Google. Desglosando la jerarquía de la IA, diferencias entre siglas (IA vs AA vs IAG) y el ecosistema Vertex AI para desarrolladores."
 image: "/assets/blog/google_gen_ai_header.png"
 layout: ../../layouts/MarkdownLayout.astro
+category: "Inteligencia Artificial"
 tags: ["ia", "google", "aprendizaje", "vertex-ai", "notas"]
 date: "2025-12-09"
 type: "blog"

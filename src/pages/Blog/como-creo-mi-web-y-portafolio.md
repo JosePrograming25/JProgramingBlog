@@ -3,6 +3,7 @@ layout: ../../layouts/MarkdownLayout.astro
 title: "Cómo Creo Mi Web y Portafolio (Documentando el Proceso)"
 date: "2025-10-28"
 image: "/assets/blog/web-planning.png"
+category: "Desarrollo Web"
 tags: ["Desarrollo Web", "Portafolio", "Proceso", "Astro", "Planificación"]
 type: "project"
 description: "Documentando el proceso paso a paso de la construcción de mi sitio web y portafolio profesional."

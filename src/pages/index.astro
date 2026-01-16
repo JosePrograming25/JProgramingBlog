@@ -1,254 +1,238 @@
 ---
-import Articulo from "../components/Articulo.astro";
 import Layout from "../layouts/Layout.astro";
-import "../styles/inicio.css";
+import PostCard from "../components/PostCard.astro";
+// import "../styles/inicio.css"; // Removed to favor Tailwind
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Obtener todos los posts
+const allPosts = await Astro.glob("./Blog/*.md");
+
+// Ordenar por fecha (más reciente primero)
+const sortedPosts = allPosts.sort((a, b) => {
+  return (
+    new Date(b.frontmatter.date).valueOf() -
+    new Date(a.frontmatter.date).valueOf()
+  );
+});
+
+// Separar Entradas de Blog y Proyectos
+const blogPosts = sortedPosts
+  .filter((post) => post.frontmatter.type === "blog")
+  .slice(0, 3);
+const projects = sortedPosts
+  .filter((post) => post.frontmatter.type === "project")
+  .slice(0, 3);
+
+// Datos simulados para comentarios (hasta que haya backend)
+const testimonials = [
+  {
+    name: "María López",
+    text: "Los artículos son claros y muy prácticos. Me ayudaron a resolver un issue en mi proyecto.",
+    role: "Frontend Dev",
+  },
+  {
+    name: "Carlos Ruiz",
+    text: "Buen enfoque para documentar problemas reales. ¡Sigue así!",
+    role: "Fullstack Dev",
+  },
+];
 ---
 
 <Layout>
-  <main class="container contenedor-inicio">
-    <!-- Sección 1: Hero / Saludo grande -->
-    <section id="hero" class="hero">
-      <div class="hero-inner">
-        <h1 class="hero-title">Hola, soy José García</h1>
-        <p class="hero-desc">
-          Bienvenido a JPrograming25 — mi web personal dedicada a documentar lo
-          que aprendo en programación: proyectos, soluciones a problemas, datos
-          curiosos y apuntes rápidos. Aquí comparto mi progreso con la esperanza
-          de colaborar y crecer profesionalmente.
-        </p>
-        <p class="hero-links">
-          <a href="#conoceme" class="btn">Conóceme / Más sobre mí</a> · <a
-            href="#contacto">Contacto</a>
-        </p>
-        <p class="hero-note">
-          (Enlace de "Conóceme" y "Contacto" apuntan a placeholders hasta que se
-          creen las páginas correspondientes.)
-        </p>
-      </div>
-    </section>
-
-    <!-- Sección 2: Contacto y redes -->
-    <section
-      id="contacto"
-      style="padding:3rem 1rem; background:var(--astro-bg, #fafafa);"
-    >
-      <div class="contact-wrapper">
-        <h2>Encuéntrame</h2>
-        <!-- Redes sociales: colocadas arriba según solicitud -->
-        <div class="contact-social">
-          <a href="#" class="social" aria-label="Instagram">Instagram</a>
-          <a href="#" class="social" aria-label="Facebook">Facebook</a>
-          <a href="#" class="social" aria-label="GitHub">GitHub</a>
-          <a href="#" class="social" aria-label="LinkedIn">LinkedIn</a>
-        </div>
-
-        <!-- Formulario de notificaciones: colocado debajo de las redes -->
-        <div class="contact-notify">
-          <form id="notify-form" aria-label="Formulario de notificaciones">
-            <label for="email" style="display:block; margin-bottom:.25rem;"
-              >Recibir notificaciones por correo</label
-            >
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="tu@correo.com"
-              style="width:100%; padding:.5rem; margin-bottom:.5rem;"
-            />
-
-            <fieldset style="border:none; padding:0; margin:0 0 .5rem;">
-              <legend style="font-weight:600; margin-bottom:.25rem;"
-                >Notificarme sobre:</legend
-              >
-              <label style="display:flex; gap:.5rem; align-items:center;"
-                ><input type="checkbox" name="notify[]" value="github" /> Nuevos
-                proyectos en GitHub</label
-              >
-              <label style="display:flex; gap:.5rem; align-items:center;"
-                ><input type="checkbox" name="notify[]" value="posts" /> Nuevos posts
-                del blog</label
-              >
-            </fieldset>
-
-            <div class="container-submit">
-              <button type="submit" style="padding:.5rem 1rem;">Enviar</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sección 3: Nuevas Entradas -->
-    <section id="entradas" style="padding:3rem 1rem;">
-      <div class="section-wrapper">
-        <h2>Nuevas entradas</h2>
-        <p style="color:#555;">
-          Las últimas publicaciones donde comparto soluciones, apuntes y
-          curiosidades.
-        </p>
-
-        <div class="grid entradas-grid">
-          <!-- Entrada 1 -->
-          <article
-            class="card"
-            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
-          >
-            <h3>Cómo resolví un bug de despliegue</h3>
-            <p style="font-size:.95rem; color:#444;">
-              Un paso a paso sobre cómo identifiqué y solucioné un error en la
-              configuración del servidor y pipeline.
-            </p>
-            <p><a href="#" aria-label="Leer entrada 1">Leer entrada</a></p>
-          </article>
-
-          <!-- Entrada 2 -->
-          <article
-            class="card"
-            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
-          >
-            <h3>Apuntes rápidos: JavaScript asíncrono</h3>
-            <p style="font-size:.95rem; color:#444;">
-              Resumen breve y ejemplos prácticos sobre promesas, async/await y
-              patrones comunes.
-            </p>
-            <p><a href="#" aria-label="Leer entrada 2">Leer entrada</a></p>
-          </article>
-
-          <!-- Entrada 3 -->
-          <article
-            class="card"
-            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
-          >
-            <h3>Dato curioso: historia de Git</h3>
-            <p style="font-size:.95rem; color:#444;">
-              Un vistazo entretenido a los orígenes de Git y consejos para
-              flujos de trabajo en equipo.
-            </p>
-            <p><a href="#" aria-label="Leer entrada 3">Leer entrada</a></p>
-          </article>
-        </div>
-
-        <div class="more-wrap"><button class="more">Más entradas</button></div>
-      </div>
-    </section>
-
-    <!-- Sección 4: Tags destacados -->
-    <section
-      id="tags"
-      style="padding:2rem 1rem; background:var(--astro-bg, #fafafa);"
-    >
-      <div class="section-wrapper">
-        <h2>Tags destacados</h2>
-        <div class="tags-list">
-          <a href="#" class="tag">#javascript</a>
-          <a href="#" class="tag">#deployment</a>
-          <a href="#" class="tag">#tips</a>
-          <a href="#" class="tag">#astro</a>
-          <a href="#" class="tag">#proyectos</a>
-        </div>
-        <div class="more-wrap"><button class="more-tags">Más tags</button></div>
-      </div>
-    </section>
-
-    <!-- Sección 5: Proyectos destacados -->
-    <section id="proyectos" style="padding:3rem 1rem;">
-      <div class="section-wrapper">
-        <h2>Proyectos destacados</h2>
-        <div class="grid proyectos-grid">
-          <article
-            class="project"
-            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
-          >
-            <h3>Portfolio personal</h3>
-            <p>
-              Mi portfolio está hecho con Astro y muestra mis proyectos en
-              progreso.
-            </p>
-            <p><a href="#">Ver proyecto</a></p>
-          </article>
-
-          <article
-            class="project"
-            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
-          >
-            <h3>Herramienta de notas</h3>
-            <p>
-              Una pequeña app para tomar apuntes rápidos y organizarlos por
-              tags.
-            </p>
-            <p><a href="#">Ver proyecto</a></p>
-          </article>
-
-          <article
-            class="project"
-            style="padding:1rem; border:1px solid #eaeaea; border-radius:8px;"
-          >
-            <h3>Mini-app de tareas</h3>
-            <p>
-              Proyecto simple para practicar estados, almacenamiento local y
-              control de tareas.
-            </p>
-            <p><a href="#">Ver proyecto</a></p>
-          </article>
-        </div>
-        <div class="more-wrap">
-          <button class="more-projects">Más proyectos</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sección 6: Comentarios destacados -->
-    <section
-      id="testimonios"
-      style="padding:2.5rem 1rem; background:var(--astro-bg, #f7f7fb);"
-    >
-      <div class="section-wrapper narrow">
-        <h2>Comentarios destacados</h2>
-        <ul class="testimonials-list">
-          <li class="testimonial">
-            <strong>María López</strong> — "Los artículos son claros y muy prácticos.
-            Me ayudaron a resolver un issue en mi proyecto."
-          </li>
-          <li class="testimonial">
-            <strong>Carlos Ruiz</strong> — "Buen enfoque para documentar problemas
-            reales. ¡Sigue así!"
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Sección 7: Feedback / colaborar -->
-    <section id="feedback" style="padding:2.5rem 1rem;">
-      <div class="section-wrapper narrow" style="text-align:left;">
-        <h2>¿Tienes sugerencias?</h2>
-        <p>
-          Si quieres mejorar esta web o colaborar, abre un issue o un pull
-          request en el repositorio:
-        </p>
-        <p>
-          <a href="#" target="_blank" rel="noopener"
-            >Repositorio del sitio (colabora)</a>
-        </p>
-
-        <form
-          id="feedback-form"
-          style="margin-top:1rem; display:grid; gap:.5rem;"
+  <!-- Main Grid Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+    <!-- Sección 1: Hero -->
+    <section id="hero" class="text-center space-y-8 py-16 animate-fade-in">
+      <div class="space-y-4 max-w-3xl mx-auto">
+        <h1
+          class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
         >
-          <label for="msg">Tu comentario</label>
-          <textarea
-            id="msg"
-            name="message"
-            rows="4"
-            placeholder="¿Qué puedo mejorar?"
-            style="padding:.5rem;"></textarea>
-          <button type="submit" style="padding:.5rem 1rem; width:max-content;"
-            >Enviar feedback</button
-          >
-        </form>
+          Hola, soy José García 👋
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+          Bienvenido a <span
+            class="font-semibold text-blue-600 dark:text-blue-400"
+            >JPrograming25</span
+          >. Aquí documento mi viaje en el desarrollo: proyectos reales,
+          soluciones a bugs y todo lo que aprendo día a día.
+        </p>
       </div>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a
+          href="/about"
+          class="px-8 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all shadow-lg hover:shadow-blue-500/25"
+        >
+          Conóceme
+        </a>
+        <a
+          href="#contacto"
+          class="px-8 py-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-all font-medium"
+        >
+          Contactar
+        </a>
+      </div>
+    </section>
+
+    <!-- Sección 2: Nuevas Entradas -->
+    <section id="entradas" class="space-y-8">
+      <div
+        class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4"
+      >
+        <h2
+          class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2"
+        >
+          📝 Nuevas Entradas
+        </h2>
+        <a
+          href="/Blog"
+          class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium flex items-center gap-1"
+        >
+          Ver todas <span>→</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {
+          blogPosts.map((post) => (
+            <PostCard
+              title={post.frontmatter.title || "Sin título"}
+              description={post.frontmatter.description || ""}
+              url={post.url}
+              date={post.frontmatter.date || new Date().toISOString()}
+              image={post.frontmatter.image}
+              type={post.frontmatter.type || "blog"}
+            />
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Sección 3: Tags Destacados -->
+    <section
+      class="bg-gray-50 dark:bg-slate-800/50 rounded-2xl p-8 border border-gray-100 dark:border-gray-700"
+    >
+      <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+        🔥 Tags Populares
+      </h2>
+      <div class="flex flex-wrap gap-3">
+        {
+          ["Javascript", "Linux", "Atajos", "Astro", "Productividad"].map(
+            (tag) => (
+              <a
+                href={`/tags/${tag.toLowerCase()}`}
+                class="px-4 py-2 rounded-lg bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all text-sm font-medium"
+              >
+                #{tag}
+              </a>
+            ),
+          )
+        }
+      </div>
+    </section>
+
+    <!-- Sección 4: Proyectos Destacados -->
+    <section id="proyectos" class="space-y-8">
+      <div class="border-b border-gray-200 dark:border-gray-800 pb-4">
+        <h2
+          class="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2"
+        >
+          🚀 Proyectos Destacados
+        </h2>
+      </div>
+
+      {
+        projects.length > 0 ? (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project) => (
+              <PostCard
+                title={project.frontmatter.title || "Proyecto sin título"}
+                description={project.frontmatter.description || ""}
+                url={project.url}
+                date={project.frontmatter.date || new Date().toISOString()}
+                image={project.frontmatter.image}
+                type={project.frontmatter.type || "project"}
+              />
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-16 bg-gray-50 dark:bg-slate-900/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">
+            <div class="text-5xl mb-4">🔨</div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              Trabajando en algo increíble
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+              Pronto subiré mis primeros proyectos destacados aquí. ¡Mantente
+              atento o revisa mi GitHub mientras tanto!
+            </p>
+          </div>
+        )
+      }
+    </section>
+
+    <!-- Sección 5: Comentarios -->
+    <section class="space-y-8">
+      <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white">
+        💬 Lo que dicen
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {
+          testimonials.map((t) => (
+            <div class="p-6 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+              <p class="text-gray-600 dark:text-gray-300 italic mb-4">
+                "{t.text}"
+              </p>
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                  {t.name.charAt(0)}
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-900 dark:text-white">
+                    {t.name}
+                  </h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    {t.role}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Sección 6: Feedback -->
+    <section
+      class="max-w-2xl mx-auto w-full bg-blue-50 dark:bg-blue-900/10 rounded-2xl p-8 text-center border border-blue-100 dark:border-blue-800/30"
+    >
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+        ¿Tienes alguna sugerencia?
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        Me ayuda mucho saber qué temas te interesan más.
+      </p>
+      <a
+        href="mailto:joseprograming25@gmail.com"
+        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
+      >
+        Enviar Feedback
+      </a>
     </section>
   </main>
 </Layout>
+
+<style>
+  /* Animaciones personalizadas si se requieren */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+</style>

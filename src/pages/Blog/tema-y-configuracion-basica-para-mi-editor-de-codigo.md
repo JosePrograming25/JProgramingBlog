@@ -1,6 +1,7 @@
 ---
 title: "Tema y configuracion basica para mi editor de codigo"
 description: "Guía definitiva para personalizar Visual Studio Code y entornos compatibles. Aprende a configurar temas, fuentes y extensiones clave."
+category: "Herramientas"
 tags: ["Configuración", "VS Code", "Productividad", "Temas", "Extensiones"]
 date: "2025-12-01"
 layout: ../../layouts/MarkdownLayout.astro

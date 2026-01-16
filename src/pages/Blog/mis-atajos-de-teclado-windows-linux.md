@@ -1,6 +1,7 @@
 ---
 title: "Mis atajos de teclado 🚀 (Windows/Linux)"
 description: "Cómo dejé de depender del mouse y aceleré mi flujo de trabajo aprendiendo los atajos esenciales para Windows y Linux."
+category: "Productividad"
 tags: ["Productividad", "Atajos", "Windows", "Linux", "Workflow", "Teclado"]
 date: "2026-01-13"
 layout: ../../layouts/MarkdownLayout.astro

@@ -5,40 +5,339 @@ import PostCard from "../../components/PostCard.astro";
 // Obtener todos los posts de la carpeta actual
 const posts = await Astro.glob("./*.md");
 
-// Ordenar posts por fecha si tienen fecha en el frontmatter, o por defecto
-// Asumimos que pueden no tener fecha, así que manejamos eso.
-// Si quisieras ordenar, podrías hacerlo aquí.
+// 1. Obtener Categorías Únicas
+const uniqueCategories = [
+  ...new Set(
+    posts.map((post: any) => post.frontmatter.category).filter(Boolean),
+  ),
+];
+
+// 2. Obtener Etiquetas más usadas (Top Tags)
+const allTags = posts.flatMap((post: any) => post.frontmatter.tags || []);
+const tagCounts = allTags.reduce((acc: any, tag: string) => {
+  acc[tag] = (acc[tag] || 0) + 1;
+  return acc;
+}, {});
+const sortedTags = Object.entries(tagCounts)
+  .sort(([, a]: any, [, b]: any) => b - a)
+  .slice(0, 10); // Top 10 tags
 ---
 
 <Layout>
-  <main class="max-w-[1000px] mx-auto px-8 py-8">
-    <header class="text-center mb-16">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header del Blog -->
+    <header class="text-center mb-16 space-y-4">
       <h1
-        class="text-5xl font-extrabold bg-linear-to-br from-indigo-500 to-purple-500 bg-clip-text text-transparent mb-4"
+        class="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
       >
-        Blog
+        Explora el Blog 🚀
       </h1>
-      <p class="text-xl text-muted-foreground">
-        Explora mis últimos artículos y tutoriales.
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        Tutoriales, guías y recursos para desarrolladores.
       </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {
-        posts.map((post: any) => (
-          <PostCard
-            title={post.frontmatter.title || "Sin título"}
-            description={
-              post.frontmatter.description ||
-              "Haz clic para leer este interesante artículo..."
-            }
-            url={post.url}
-            date={post.frontmatter.date}
-            image={post.frontmatter.image}
-            type={post.frontmatter.type}
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+      <!-- Sidebar (Lateral Izquierdo) -->
+      <aside class="space-y-8 lg:col-span-1">
+        <!-- Buscador -->
+        <div class="relative">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Buscar artículos..."
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
           />
-        ))
-      }
+          <span class="absolute right-4 top-3.5 text-gray-400">🔍</span>
+        </div>
+
+        <!-- Filtros Activos (Se muestra si hay filtros) -->
+        <div id="active-filters" class="hidden flex-wrap gap-2">
+          <button
+            id="clear-filters-btn"
+            class="text-xs px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+          >
+            ✕ Limpiar Filtros
+          </button>
+        </div>
+
+        <!-- Categorías -->
+        <div
+          class="bg-white dark:bg-slate-800/50 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm"
+        >
+          <h3
+            class="font-bold text-lg mb-4 flex items-center gap-2 text-gray-900 dark:text-white"
+          >
+            📂 Categorías
+          </h3>
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="/Blog"
+                class="filter-category flex items-center justify-between group p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                data-category="all"
+              >
+                <span class="text-gray-600 dark:text-gray-300 font-medium"
+                  >Todas</span
+                >
+              </a>
+            </li>
+            {
+              uniqueCategories.map((cat: any) => (
+                <li>
+                  <button
+                    class="filter-category w-full flex items-center justify-between group p-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors text-left"
+                    data-category={cat}
+                  >
+                    <span class="text-gray-600 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 font-medium">
+                      {cat}
+                    </span>
+                    <span class="text-xs bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-400 px-2 py-1 rounded-full group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/40 group-hover:text-indigo-600">
+                      {
+                        posts.filter((p: any) => p.frontmatter.category === cat)
+                          .length
+                      }
+                    </span>
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <!-- Etiquetas Populares -->
+        <div
+          class="bg-white dark:bg-slate-800/50 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm"
+        >
+          <h3
+            class="font-bold text-lg mb-4 flex items-center gap-2 text-gray-900 dark:text-white"
+          >
+            🏷️ Etiquetas Top
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {
+              sortedTags.map(([tag, count]: any) => (
+                <button
+                  class="filter-tag px-3 py-1 rounded-lg text-xs font-medium bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-pink-900/30 hover:text-pink-600 dark:hover:text-pink-400 transition-colors border border-transparent hover:border-pink-200 dark:hover:border-pink-800/50"
+                  data-tag={tag}
+                >
+                  #{tag}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </aside>
+
+      <!-- Grid de Posts (Contenido Principal) -->
+      <section class="lg:col-span-3">
+        <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {
+            posts.map((post: any) => (
+              <div
+                class="post-item h-full"
+                data-title={post.frontmatter.title || ""}
+                data-category={post.frontmatter.category || ""}
+                data-tags={(post.frontmatter.tags || [])
+                  .join(",")
+                  .toLowerCase()}
+              >
+                <PostCard
+                  title={post.frontmatter.title || "Sin título"}
+                  description={
+                    post.frontmatter.description ||
+                    "Haz clic para leer este interesante artículo..."
+                  }
+                  url={post.url}
+                  date={post.frontmatter.date}
+                  image={post.frontmatter.image}
+                  type={post.frontmatter.type}
+                />
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- Mensaje No hay resultados -->
+        <div id="no-results" class="hidden text-center py-12">
+          <p class="text-xl text-gray-500 dark:text-gray-400">
+            No se encontraron resultados para tu búsqueda. 🔍
+          </p>
+          <button id="reset-search" class="mt-4 text-indigo-600 hover:underline"
+            >Ver todos los artículos</button
+          >
+        </div>
+      </section>
     </div>
   </main>
+
+  <script>
+    function initBlog() {
+      const searchInput = document.getElementById(
+        "search-input",
+      ) as HTMLInputElement;
+      const posts = document.querySelectorAll(".post-item");
+      const categoryBtns = document.querySelectorAll(".filter-category");
+      const tagBtns = document.querySelectorAll(".filter-tag");
+      const clearBtn = document.getElementById("clear-filters-btn");
+      const activeFiltersContainer = document.getElementById("active-filters");
+      const noResultsMsg = document.getElementById("no-results");
+      const resetSearchBtn = document.getElementById("reset-search");
+
+      let currentFilter = {
+        search: "",
+        category: "all",
+        tag: "",
+      };
+
+      function filterPosts() {
+        let visibleCount = 0;
+
+        posts.forEach((post: any) => {
+          const title = (post.dataset.title || "").toLowerCase();
+          const category = post.dataset.category;
+          const tags = (post.dataset.tags || "").toLowerCase();
+
+          const matchesSearch = title.includes(
+            currentFilter.search.toLowerCase(),
+          );
+          const matchesCategory =
+            currentFilter.category === "all" ||
+            category === currentFilter.category;
+          const matchesTag =
+            currentFilter.tag === "" ||
+            tags.includes(currentFilter.tag.toLowerCase());
+
+          if (matchesSearch && matchesCategory && matchesTag) {
+            post.style.display = "block";
+            visibleCount++;
+          } else {
+            post.style.display = "none";
+          }
+        });
+
+        // Show/Hide No Results
+        if (noResultsMsg) {
+          noResultsMsg.style.display = visibleCount === 0 ? "block" : "none";
+        }
+
+        updateUI();
+      }
+
+      function updateUI() {
+        // Highlight active category
+        categoryBtns.forEach((btn: any) => {
+          if (btn.dataset.category === currentFilter.category) {
+            btn.classList.add(
+              "bg-indigo-50",
+              "dark:bg-indigo-900/20",
+              "text-indigo-600",
+              "dark:text-indigo-400",
+            );
+            btn.classList.remove("text-gray-600", "dark:text-gray-300");
+          } else {
+            btn.classList.remove(
+              "bg-indigo-50",
+              "dark:bg-indigo-900/20",
+              "text-indigo-600",
+              "dark:text-indigo-400",
+            );
+            btn.classList.add("text-gray-600", "dark:text-gray-300");
+          }
+        });
+
+        // Highlight active tags
+        tagBtns.forEach((btn: any) => {
+          if (btn.dataset.tag === currentFilter.tag) {
+            btn.classList.add(
+              "bg-pink-100",
+              "dark:bg-pink-900/30",
+              "text-pink-600",
+              "dark:text-pink-400",
+            );
+            btn.classList.remove("bg-gray-100", "dark:bg-slate-700");
+          } else {
+            btn.classList.remove(
+              "bg-pink-100",
+              "dark:bg-pink-900/30",
+              "text-pink-600",
+              "dark:text-pink-400",
+            );
+            btn.classList.add("bg-gray-100", "dark:bg-slate-700");
+          }
+        });
+
+        // Show Reset button if filters active
+        if (
+          currentFilter.category !== "all" ||
+          currentFilter.tag !== "" ||
+          currentFilter.search !== ""
+        ) {
+          activeFiltersContainer?.classList.remove("hidden");
+          activeFiltersContainer?.classList.add("flex");
+        } else {
+          activeFiltersContainer?.classList.add("hidden");
+          activeFiltersContainer?.classList.remove("flex");
+        }
+      }
+
+      // Event Listeners
+      searchInput?.addEventListener("input", (e: any) => {
+        currentFilter.search = e.target.value;
+        filterPosts();
+      });
+
+      categoryBtns.forEach((btn) => {
+        btn.addEventListener("click", (e: any) => {
+          // Find closest button in case click hits span
+          const target = e.target.closest("button, a");
+          if (!target) return;
+
+          e.preventDefault();
+          const category = target.dataset.category;
+          currentFilter.category =
+            category === currentFilter.category ? "all" : category; // Toggle
+          currentFilter.tag = ""; // Reset tags when changing category
+          filterPosts();
+        });
+      });
+
+      tagBtns.forEach((btn) => {
+        btn.addEventListener("click", (e: any) => {
+          const target = e.target.closest("button");
+          if (!target) return;
+
+          const tag = target.dataset.tag;
+          currentFilter.tag = tag === currentFilter.tag ? "" : tag; // Toggle
+          currentFilter.category = "all"; // Reset category when searching tags (optional decision)
+          filterPosts();
+        });
+      });
+
+      clearBtn?.addEventListener("click", () => {
+        currentFilter = { search: "", category: "all", tag: "" };
+        if (searchInput) searchInput.value = "";
+        filterPosts();
+      });
+
+      resetSearchBtn?.addEventListener("click", () => {
+        currentFilter = { search: "", category: "all", tag: "" };
+        if (searchInput) searchInput.value = "";
+        filterPosts();
+      });
+
+      // Handle initial hash for tags (e.g. #tag-Linux)
+      const hash = window.location.hash;
+      if (hash.startsWith("#tag-")) {
+        const tag = hash.replace("#tag-", "");
+        currentFilter.tag = tag;
+        filterPosts();
+      }
+    }
+
+    // Ejecutar cuando Astro carga la página (soporte View Transitions)
+    document.addEventListener("astro:page-load", initBlog);
+    // Ejecutar también en carga inicial normal por si acaso
+    document.addEventListener("DOMContentLoaded", initBlog);
+  </script>
 </Layout>

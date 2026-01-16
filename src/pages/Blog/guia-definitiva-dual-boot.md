@@ -1,6 +1,7 @@
 ---
 title: "Guía Definitiva: Dual Boot Windows 10 y Pop!_OS con Almacenamiento Compartido"
 description: "Aprende a instalar Windows y Linux en el mismo PC, resolver problemas de particiones EFI y configurar un disco compartido para juegos y proyectos."
+category: "Tutoriales"
 tags: ["Linux", "Windows", "Dual Boot", "Pop!_OS", "Tutorial", "Configuración"]
 date: "2025-12-05"
 layout: ../../layouts/MarkdownLayout.astro
